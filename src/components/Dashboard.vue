@@ -10,8 +10,8 @@
     <div>Ações:</div>
   </div>
 <div id="burguer-table-rows"> 
-    <div class="burguer-table-row" v-for="burguer in burguers" :key="burguer.id">
-        <div class="order-number">{{ burguer.id }}</div>
+    <div class="burguer-table-row" v-for="(burguer, burguerId) in burguers" :key="burguerId">
+        <div class="order-number">{{ burguerId }}</div>
         <div>{{ burguer.nome }}</div>
         <div>{{ burguer.pao }}</div>
         <div>{{ burguer.carne }}</div>
@@ -29,28 +29,7 @@
                     {{ s.tipo }}
                 </option>
             </select>
-            <button class="delete-btn" @click="deleteBurguer(burguer.id)">Cancelar</button>
-        </div>
-    </div>
- </div>
-
- <div id="burguer-table-rows">
-    <div class="burguer-table-row">
-        <div class="order-number">1</div>
-        <div>João</div>
-        <div>Pão de Trigo</div>
-        <div>Maminha</div>
-        <div>
-            <ul>
-                <li>Salame</li>
-                <li>Tomate</li>
-            </ul>
-        </div>
-        <div>
-            <select name="status" class="status">
-                <option value="">Selecione</option>
-            </select>
-            <button class="delete-btn">Cancelar</button>
+            <button class="delete-btn" @click="deleteBurguer(burguerId)">Cancelar</button>
         </div>
     </div>
  </div>
@@ -70,18 +49,18 @@ export default {
     methods: {
         getPedidos() {
             this.burguers = JSON.parse(localStorage.getItem('pedidos'));
-            
             // resgatar status
             this.getStatus();
         },
         async getStatus() {
             const req = await fetch(window.location.origin+'/json/data.json');
             const data = await req.json();
-
             this.status = data.status;
         },
-        async deleteBurguer(id) {
-            this.burguers = JSON.parse(localStorage.getItem('status'));
+        deleteBurguer(id) {
+            delete this.burguers[id]
+            localStorage.setItem('pedidos', JSON.stringify(this.burguers))
+            this.getPedidos()
         }
     },
     mounted() {

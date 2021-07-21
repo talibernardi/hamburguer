@@ -64,20 +64,21 @@ export default {
         },
         async createBurguer(e) {
           e.preventDefault()
-          const pedidos = localStorage.getItem('pedidos') ? JSON.parse(localStorage.getItem('pedidos')) : []
-          pedidos.push( {
+          const pedidos = localStorage.getItem('pedidos') ? JSON.parse(localStorage.getItem('pedidos')) : {}
+          const id = (new Date()).getTime()
+          pedidos[id] = {
             nome: this.nome,
             carne: this.carne,
             pao: this.pao,
             opcionais: Array.from(this.opcionais),
             status: "solicitado"
-          })
+          }
 
           localStorage.setItem('pedidos', JSON.stringify(pedidos))
 
           this.msg = `Pedido Nº ${Object.keys(pedidos).length} realizado com sucesso`;
 
-          setTimeout(() => this.msg = "", 3000);
+          setTimeout(() => this.msg = "", 10000);
 
           document.getElementById("burguer-form").reset();
         }
