@@ -23,9 +23,9 @@
             </ul>
         </div>
         <div>
-            <select name="status" class="status">
+            <select name="status" class="status" @change="updateBurguer($event, burguerId)">
                 <option value="">Selecione</option>
-                <option v-for="s in status" :key="s.id" value="s.tipo" :selected="burguer.status == s.tipo">
+                <option v-for="s in status" :key="s.id" :value="s.tipo" :selected="burguer.status == s.tipo">
                     {{ s.tipo }}
                 </option>
             </select>
@@ -59,6 +59,11 @@ export default {
         },
         deleteBurguer(id) {
             delete this.burguers[id]
+            localStorage.setItem('pedidos', JSON.stringify(this.burguers))
+            this.getPedidos()
+        },
+        updateBurguer(e, id) {
+            this.burguers[id].status = e.target.value
             localStorage.setItem('pedidos', JSON.stringify(this.burguers))
             this.getPedidos()
         }

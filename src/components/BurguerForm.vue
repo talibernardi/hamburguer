@@ -71,7 +71,7 @@ export default {
             carne: this.carne,
             pao: this.pao,
             opcionais: Array.from(this.opcionais),
-            status: "solicitado"
+            status: "Solicitado"
           }
 
           localStorage.setItem('pedidos', JSON.stringify(pedidos))
